@@ -3,6 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   options: [
     {
+      title: 'Apalit',
+      insideSourceTown: true,
+      distanceFromSourceTown: 0,
+      baseRate: 40.00,
+      perKm: 10.00,
+    },
+    {
       title: 'WingShots',
       insideSourceTown: false,
       distanceFromSourceTown: 3.4,

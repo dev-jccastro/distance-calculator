@@ -27,7 +27,7 @@ const App = () => {
 
     let finalDf;
     if (insideSourceTown) {
-      finalDf = (perKm * actualKm) + baseRate;
+      finalDf = (perKm * (actualKm-1)) + baseRate;
     } else {
       let additionalDf = 0.0;
       if (actualKm <= 2.9) {
