@@ -7,6 +7,7 @@ import {
   selectCalculator,
   setSelectedOptions,
   setActualKm,
+  setAdditionalStore,
   setFinalDf,
   reset
 } from "./features/calculator/calculatorSlice";
@@ -17,7 +18,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const calculate = () => {
-    const { selectedOption, actualKm } = calculator;
+    const { selectedOption, actualKm, additionalStore } = calculator;
     const {
       insideSourceTown,
       distanceFromSourceTown,
@@ -31,11 +32,11 @@ const App = () => {
     } else {
       let additionalDf = 0.0;
       if (actualKm <= 2.9) {
-        additionalDf = ((distanceFromSourceTown - actualKm) / 2) * 10;
+        additionalDf = ((distanceFromSourceTown) / 2) * 10;
       }
       finalDf = (perKm * (actualKm-1)) + baseRate + additionalDf;
     }
-    dispatch(setFinalDf(finalDf));
+    dispatch(setFinalDf(finalDf + (additionalStore * 25)));
   }
   return (
     <div className="App">
@@ -60,6 +61,16 @@ const App = () => {
         value={parseFloat(calculator.actualKm) === 0.0 ? '' : parseFloat(calculator.actualKm)}
         disabled={!calculator.selectedOption}
       />
+      <TextField
+        id="outlined-basic"
+        label="Additional Store"
+        variant="outlined"
+        style={{ minWidth: 300, maxWidth: 400, marginTop: '1.5rem' }}
+        type={"number"}
+        onChange={event => dispatch(setAdditionalStore(event.target.value))}
+        value={parseInt(calculator.additionalStore) === 0.0 ? '' : parseFloat(calculator.additionalStore)}
+        disabled={!calculator.selectedOption}
+      />      
       <TextField
         id="outlined-basic"
         label="Final DF"

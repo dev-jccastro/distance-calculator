@@ -47,6 +47,7 @@ const initialState = {
   ],
   selectedOption: null,
   actualKm: 0.0,
+  additionalStore: 0,
   finalDf: 0.0
 }
 
@@ -63,10 +64,13 @@ export const calculatorSlice = createSlice({
     setFinalDf: (state, action) => {
       state.finalDf = action.payload
     },
+    setAdditionalStore: (state, action) => {
+      state.additionalStore = action.payload
+    },
     reset: state => initialState
   }
 });
 
-export const { setSelectedOptions, setActualKm, setFinalDf, reset } = calculatorSlice.actions;
+export const { setSelectedOptions, setActualKm, setFinalDf, setAdditionalStore, reset } = calculatorSlice.actions;
 export const selectCalculator = (state) => state.calculator;
 export default calculatorSlice.reducer;
