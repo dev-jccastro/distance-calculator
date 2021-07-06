@@ -31,9 +31,9 @@ const App = () => {
     } else {
       let additionalDf = 0.0;
       if (actualKm <= 2.9) {
-        additionalDf = (distanceFromSourceTown / 2) * 10;
+        additionalDf = ((distanceFromSourceTown - actualKm) / 2) * 10;
       }
-      finalDf = (perKm * actualKm) + baseRate + additionalDf;
+      finalDf = (perKm * (actualKm-1)) + baseRate + additionalDf;
     }
     dispatch(setFinalDf(finalDf));
   }

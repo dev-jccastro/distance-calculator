@@ -3,14 +3,42 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   options: [
     {
-      title: 'Apalit',
+      title: 'Within Apalit',
       insideSourceTown: true,
       distanceFromSourceTown: 0,
       baseRate: 40.00,
       perKm: 10.00,
     },
     {
-      title: 'WingShots',
+      title: 'Barney\'s Mang Cha-a - CDCP',
+      insideSourceTown: false,
+      distanceFromSourceTown: 4.5,
+      baseRate: 50.00,
+      perKm: 15.00,
+    },
+    {
+      title: 'Cake\'s and Cream Cafe',
+      insideSourceTown: false,
+      distanceFromSourceTown: 4.5,
+      baseRate: 50.00,
+      perKm: 15.00,
+    },
+    {
+      title: 'Our Daily Bread Cafe - San Simon',
+      insideSourceTown: false,
+      distanceFromSourceTown: 5.1,
+      baseRate: 50.00,
+      perKm: 15.00,
+    },
+    {
+      title: 'Milkfridge - Minalin',
+      insideSourceTown: false,
+      distanceFromSourceTown: 5.2,
+      baseRate: 50.00,
+      perKm: 15.00,
+    },
+    {
+      title: 'WingShots - Paligui',
       insideSourceTown: false,
       distanceFromSourceTown: 3.4,
       baseRate: 50.00,
