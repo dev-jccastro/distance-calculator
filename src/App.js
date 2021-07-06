@@ -1,56 +1,95 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useSelector, useDispatch } from 'react-redux';
 import './App.css';
+import {
+  selectCalculator,
+  setSelectedOptions,
+  setActualKm,
+  setFinalDf,
+  reset
+} from "./features/calculator/calculatorSlice";
+import {Button} from "@material-ui/core";
 
-function App() {
+const App = () => {
+  const calculator = useSelector(selectCalculator);
+  const dispatch = useDispatch();
+
+  const calculate = () => {
+    const { selectedOption, actualKm } = calculator;
+    const {
+      insideSourceTown,
+      distanceFromSourceTown,
+      baseRate,
+      perKm
+    } = selectedOption;
+
+    let finalDf;
+    if (insideSourceTown) {
+      finalDf = (perKm * actualKm) + baseRate;
+    } else {
+      let additionalDf = 0.0;
+      if (actualKm <= 2.9) {
+        additionalDf = (distanceFromSourceTown / 2) * 10;
+      }
+      finalDf = (perKm * actualKm) + baseRate + additionalDf;
+    }
+    dispatch(setFinalDf(finalDf));
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Autocomplete
+          value={calculator.selectedOption}
+          onChange={(event, newValue) =>
+            dispatch(setSelectedOptions(newValue))
+          }
+          id="store-codes"
+          options={calculator.options}
+          getOptionLabel={(option) => option.title}
+          style={{ minWidth: 300, maxWidth: 400, marginTop: '2rem' }}
+          renderInput={(params) => <TextField {...params} label="Store Code" variant="outlined" />}
+      />
+      <TextField
+        id="outlined-basic"
+        label="Actual KM"
+        variant="outlined"
+        style={{ minWidth: 300, maxWidth: 400, marginTop: '1.5rem' }}
+        type={"number"}
+        onChange={event => dispatch(setActualKm(event.target.value))}
+        value={parseFloat(calculator.actualKm) === 0.0 ? '' : parseFloat(calculator.actualKm)}
+        disabled={!calculator.selectedOption}
+      />
+      <TextField
+        id="outlined-basic"
+        label="Final DF"
+        variant="outlined"
+        style={{ minWidth: 300, maxWidth: 400,  marginTop: '1.5rem', fontWeight: 'bold' }}
+        type={"number"}
+        value={calculator.finalDf}
+        disabled={true}
+      />
+      <div className="buttonWrapper">
+        <Button
+          color="primary"
+          variant="contained"
+          style={{
+            minWidth: 140, maxWidth: 180,  marginRight: 10, fontWeight: 'bold', color: '#fff'
+          }}
+          onClick={calculate}
+          disabled={!calculator.selectedOption || calculator.actualKm === 0.0}
+        >
+          Calculate
+        </Button>
+        <Button
+          color="primary"
+          variant="outlined"
+          style={{ minWidth: 140, maxWidth: 180, fontWeight: 'bold' }}
+          onClick={() => dispatch(reset())}
+        >
+          Clear
+        </Button>
+      </div>
     </div>
   );
 }
